@@ -1,0 +1,867 @@
+
+#: import NoTransition kivy.uix.screenmanager.NoTransition
+
+<WelcomeScreen>:
+
+    MDFloatLayout:
+        Image:
+            source:'assets/welcome.gif'
+            anim_delay:0
+            allow_stretch:True
+            anim_loop:1
+<LoginScreen>:
+    MDFloatLayout:
+        md_bg_color:210/255, 210/255, 210/255,1
+        MDCard:
+            id:elev
+            elevation:4
+            size_hint:.85,.9
+            md_bg_color:1,1,1,1
+            pos_hint:{'center_x':.5,'center_y':.5}
+            radius:[10]
+        Image:
+            source:'assets/login.jpg'
+            size_hint:.6,.5
+            pos_hint:{'center_x':.5,'center_y':.78}
+        MDTextField:
+            id: username
+            hint_text: 'Username'
+            write_tab:False
+            multiline:False
+            size_hint:.75,.12
+            pos_hint:{'center_x':.5,'center_y':.54}
+            icon_left:'account'
+            helper_text_mode: "on_error"
+        MDTextField:
+            id:password
+            password:True
+            hint_text: 'Password'
+            write_tab:False
+            multiline:False
+            size_hint:.75,.12
+            pos_hint:{'center_x':.5,'center_y':.43}
+            icon_left:'key-variant'
+            helper_text_mode: "on_error"
+        MDIconButton:
+            icon:'eye-off'
+            ripple_alpha: 0
+            pos_hint:{'center_y':.43}
+            pos:password.width - self.width + dp(45), 0
+            theme_text_color:'Hint'
+            on_release:
+                self.icon = 'eye' if self.icon == 'eye-off' else 'eye-off'
+                password.password = False if password.password is True else True
+        MDTextButton:
+            font_size:'12sp'
+            text:'Forgot your password?'
+            on_press:
+                root.get_pw()
+                root.manager.transition.direction = 'left'
+                root.manager.transition = NoTransition()
+            pos_hint:{'center_x':0.5,'center_y':0.37}
+            font_name:'assets/Poppins-Regular.ttf'
+            theme_text_color:'Custom'
+            text_color: 246/255, 135/255, 177/255, 1
+        MDRoundFlatIconButton:
+            text:'Login'
+            icon:'login'
+            on_press:root.log_in(root.ids.username.text, root.ids.password.text)
+            size_hint:0.335,.07
+            pos_hint:{'center_x':0.5,'center_y':0.275}
+        MDLabel:
+            text:'or'
+            halign:"center"
+            pos_hint:{'center_x':.5,'center_y':0.2}
+        MDFloatLayout:
+            md_bg_color: rgba(178,178,178,255)
+            size_hint:.3, .002
+            pos_hint:{'center_x':0.3,'center_y':0.198}
+        MDFloatLayout:
+            md_bg_color: rgba(178,178,178,255)
+            size_hint:.3, .002
+            pos_hint:{'center_x':0.7,'center_y':0.198}
+        MDRoundFlatIconButton:
+            icon:'sign-in'
+            text:'Sign Up'
+            on_press:root.sign_up()
+            size_hint:0.335,.07
+            pos_hint:{'center_x':.5,'center_y':0.125}
+            on_press:root.sign_up()
+
+<SignUpScreen>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        Image:
+            source:'assets/register.jpg'
+            size_hint:1,1
+            pos_hint:{'center_x':.5,'center_y':.75}
+        MDIconButton:
+            icon:'arrow-left'
+            ripple_alpha: 0
+            on_press:root.manager.current = 'login_screen'
+            size_hint:0.1,0.1
+            pos_hint:{'center_x':0.05,'center_y':0.97}
+        MDLabel:
+            text:'Please enter username and password!'
+            pos_hint:{'center_x':.5,'center_y':.5}
+            text_color:106/255, 90/255, 205/255, 1
+            theme_text_color:'Custom'
+            halign:'center'
+        MDTextField:
+            id:username
+            line_color_focus: 215/255, 139/255, 230/255, 1
+            hint_text:'Enter username'
+            write_tab:False
+            multiline:False
+            pos_hint:{'center_x':.5,'center_y':.41}
+            size_hint:.75,.12
+            helper_text_mode: "on_error"
+        MDTextField:
+            id:password
+            hint_text:'Enter password'
+            write_tab:False
+            multiline:False
+            size_hint:.75,0.12
+            pos_hint:{'center_x':.5,'center_y':.3}
+            helper_text_mode: "on_error"
+        MDFillRoundFlatButton:
+            text:'Submit'
+            size_hint:0.3,0.07
+            pos_hint:{'center_x':0.5,'center_y':0.185}
+            md_bg_color:106/255, 90/255, 205/255, 1
+            on_press:
+                root.submit(root.ids.username.text, root.ids.password.text)
+                username.text = ''
+                password.text = ''
+
+<ForgotPassword>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        Image:
+            source:'assets/pw.jpg'
+            size_hint:1,1
+            pos_hint:{'center_x':.5,'center_y':.75}
+        MDIconButton:
+            icon:'arrow-left'
+            on_press:
+                root.home()
+                root.manager.transition.direction = 'right'
+            size_hint:0.1,0.1
+            ripple_alpha: 0
+            pos_hint:{'center_x':0.05,'center_y':0.97}
+        MDTextField:
+            id:username
+            hint_text:'Enter Username..'
+            multiline:False
+            size_hint:.75,.12
+            pos_hint:{'center_x':0.5,'center_y':0.45}
+            helper_text_mode: "on_error"
+        MDFillRoundFlatButton:
+            text:'Submit'
+            size_hint:0.3,0.07
+            pos_hint:{'center_x':0.5,'center_y':0.3}
+            md_bg_color:106/255, 90/255, 205/255, 1  
+            on_press:root.forgot(root.ids.username.text)  
+        MDLabel:
+            id:password
+            text:''
+            halign:"center"
+            pos_hint:{'center_x':.5,'center_y':0.2}  
+            bold:True
+            font_size: '32sp'           
+
+<LoginSuccesfull>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        Image:
+            source:'assets/main.jpg'
+            size_hint:1,1
+            pos_hint:{'center_x':.5,'center_y':.75} 
+        MDIconButton:
+            icon:'power'
+            ripple_alpha: 0
+            on_press:root.home()
+            size_hint:0.1,0.1
+            pos_hint:{'center_x':0.9,'center_y':0.95}         
+        MDFillRoundFlatIconButton:
+            text:'Play'
+            icon:'translate'
+            size_hint:0.75,0.1
+            pos_hint:{'center_x':0.5,'center_y':0.4}
+            md_bg_color:106/255, 90/255, 205/255, 1
+            on_press:root.game()
+        MDFillRoundFlatIconButton:
+            text:'Add words'
+            icon:'folder'
+            size_hint:0.75,0.1
+            pos_hint:{'center_x':0.5,'center_y':0.25}
+            md_bg_color:106/255, 90/255, 205/255, 1
+            on_press:root.n_word()
+        MDFillRoundFlatIconButton:
+            text:'Edit folders'
+            icon:'border-color'
+            size_hint:0.75,0.1
+            pos_hint:{'center_x':0.5,'center_y':0.1}
+            md_bg_color:106/255, 90/255, 205/255, 1
+            on_release:root.edit()
+
+<BeforeGame>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        Image:
+            source:'assets/game.jpg'
+            size_hint:.9,.9
+            pos_hint:{'center_x':0.5,'center_y':0.77}
+        MDIconButton:
+            icon:'arrow-left'
+            on_press:root.home()
+            size_hint:0.1,0.1
+            ripple_alpha: 0
+            pos_hint:{'center_x':0.05,'center_y':0.97}
+        MDLabel:
+            text:'Choose folder and game'
+            halign:'center'
+            size_hint:0.6,.07
+            pos_hint:{'center_x':0.5,'center_y':0.57}
+        MDDropDownItem:
+            id:spinner
+            dropdown_bg: [1, 1, 1, 1]
+            size_hint:0.335,.07
+            pos_hint:{'center_x':0.5,'center_y':0.52}
+            text:'Folder'
+            on_release:root.menu_open()
+        MDCard:
+            size_hint:.4,.205
+            pos_hint:{'center_x':0.27,'center_y':0.36}
+            on_release:root.all()
+            md_bg_color:210/255, 210/255, 210/255,1
+            #md_bg_color:255/255,255/255,255/255,1
+            elevation: 5
+            MDFloatLayout:
+                MDLabel:
+                    halign:'center'
+                    text:'Flashacrds' 
+                    pos_hint:{'center_x':0.5,'center_y':0.5} 
+        MDCard:
+            size_hint:.4,.205
+            pos_hint:{'center_x':0.73,'center_y':0.36}
+            on_release:root.write_game()
+            md_bg_color:210/255, 210/255, 210/255,1
+            elevation: 5
+            MDFloatLayout:
+                MDLabel:
+                    halign:'center'
+                    text:'Random' 
+                    pos_hint:{'center_x':0.5,'center_y':0.5} 
+        MDCard:
+            size_hint:.4,.205
+            pos_hint:{'center_x':0.27,'center_y':0.13}
+            elevation: 5
+            md_bg_color:210/255, 210/255, 210/255,1
+            on_release:root.one_try()
+            MDFloatLayout:
+                MDLabel:
+                    halign:'center'
+                    text:'1 try game' 
+                    pos_hint:{'center_x':0.5,'center_y':0.5}      
+        MDCard:
+            size_hint:.4,.205
+            pos_hint:{'center_x':0.73,'center_y':0.13}
+            elevation: 5
+            md_bg_color:210/255, 210/255, 210/255,1
+            on_release:root.voice_game()
+            MDFloatLayout:           
+                MDLabel:
+                    halign:'center'
+                    text:'Voice Game' 
+                    pos_hint:{'center_x':0.5,'center_y':0.5}
+
+
+<NewWord>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        Image:
+            source:'assets/add.jpg'
+            size_hint:.7,.7
+            pos_hint:{'center_x':.5,'center_y':.82} 
+
+        MDIconButton:
+            icon:'arrow-left'
+            on_press:root.back_after_saving()
+            size_hint:0.1,0.1
+            ripple_alpha: 0
+            pos_hint:{'center_x':0.05,'center_y':0.97}  
+        MDLabel:
+            text:'Create Folder'
+            halign:'center'
+            size_hint:0.335,.07
+            font_style:"Overline"
+            pos_hint:{'center_x':0.5,'center_y':0.64}
+        MDTextField:
+            id: folder
+            helper_text_mode: "on_error"
+            hint_text: 'Folder Name'
+            write_tab:False
+            multiline:False
+            size_hint:.5,.12
+            pos_hint:{'center_x':.3375,'center_y':.57}
+            line_color_normal:106/255, 90/255, 205/255, 1
+            hint_text_color_normal:106/255, 90/255, 205/255, 1    
+        MDFillRoundFlatButton:
+            text:'Create'
+            on_press:root.create_folder(root.ids.folder.text)  
+            size_hint:0.3,0.07
+            pos_hint:{'center_x':0.7625,'center_y':0.57}
+            md_bg_color:106/255, 90/255, 205/255, 1
+        MDLabel:
+            text:'Add words'
+            halign:'center'
+            size_hint:0.5,.07
+            font_style:"Overline"
+            pos_hint:{'center_x':0.5,'center_y':0.49}
+        MDFloatLayout:
+            md_bg_color: rgba(178,178,178,255)
+            size_hint:.24, .002
+            pos_hint:{'center_x':0.2,'center_y':0.488}
+        MDFloatLayout:
+            md_bg_color: rgba(178,178,178,255)
+            size_hint:.24, .002
+            pos_hint:{'center_x':0.8,'center_y':0.488}
+        MDCard:
+            elevation:2
+            size_hint:.6,.4
+            pos_hint:{'center_x':0.5,'center_y':0.24}
+            radius:[10]
+            md_bg_color:210/255, 210/255, 210/255,1
+        MDDropDownItem:
+            id:spinner
+            dropdown_bg: [1, 1, 1, 1]
+            size_hint:0.335,.07
+            pos_hint:{'center_x':0.5,'center_y':0.4}
+            text:'Folder'
+            on_release:root.menu_open()
+        MDTextField:
+            id: word
+            hint_text: 'Word'
+            write_tab:False
+            multiline:False
+            size_hint:.5,.12
+            pos_hint:{'center_x':.5,'center_y':.3}
+            line_color_normal:106/255, 90/255, 205/255, 1
+            hint_text_color_normal:106/255, 90/255, 205/255, 1
+            helper_text_mode: "on_error"       
+        MDTextField:
+            id: translation
+            hint_text: 'Translation'
+            write_tab:False
+            multiline:False
+            size_hint:.5,.12
+            pos_hint:{'center_x':.5,'center_y':.2}
+            line_color_normal:106/255, 90/255, 205/255, 1
+            hint_text_color_normal:106/255, 90/255, 205/255, 1    
+            helper_text_mode: "on_error"
+        MDFillRoundFlatButton:
+            text:'Save'
+            size_hint:0.3,0.07
+            pos_hint:{'center_x':0.5,'center_y':0.1}
+            md_bg_color:106/255, 90/255, 205/255, 1  
+            on_press:root.saving(root.ids.spinner.text,root.ids.word.text,root.ids.translation.text)  
+
+
+<Content>:
+    adaptive_height:True
+    #md_bg_color:210/255, 210/255, 210/255,1
+    #cols:2
+    #spacing:15,15
+    #padding:10,10
+    MDTextField:
+        id:word1
+        size_hint:.4,.7
+        hint_text:root.text1
+        text:''
+        write_tab:False
+        multiline:False
+        pos_hint:{'center_x':0.25,'center_y':0.72}
+    MDTextField:
+        id:word2
+        size_hint:.4,.7
+        hint_text:root.text2
+        text:''
+        write_tab:False
+        multiline:False
+        pos_hint:{'center_x':0.75,'center_y':0.72}
+    MDTextButton:
+        text:'Delete'
+        custom_color: "black"
+        pos_hint:{'center_x':0.3,'center_y':0.25}
+        size_hint:.3,.07
+        on_release:root.alert_dialog()
+    MDTextButton:
+        text:'Update'
+        custom_color: "black"
+        pos_hint:{'center_x':0.75,'center_y':0.25}
+        size_hint:.3,.07
+        on_release:root.update_word(root.ids.word1.hint_text,root.ids.word1.text,root.ids.word2.hint_text,root.ids.word2.text)
+    MDFloatLayout:
+        size_hint:1,.02
+        md_bg_color: rgba(178,178,178,255)
+        pos_hint:{'center_x':0.5,'center_y':0.05}
+        
+
+
+<Cardy>:   
+    size_hint:.4,None
+    height:100
+    elevation: 3
+    md_bg_color:210/255, 210/255, 210/255,1
+    on_release:
+        root.word_list()       
+    MDFloatLayout:           
+        MDLabel:
+            id:name
+            text:root.card_name
+            halign:'center'
+            pos_hint:{'center_x':0.5,'center_y':0.5}
+
+<EditWords>:
+    
+    MDGridLayout:
+        cols:1
+        MDTopAppBar:
+            id: topbarname
+            title: ""
+            elevation:2
+            left_action_items:[['arrow-left', lambda x: root.back()]]
+            right_action_items:[['minus', lambda x:root.show_alert_dialog()],['border-color', lambda x:root.change_name(root.ids.topbarname.title)]]
+        MDBoxLayout: 
+            ScrollView:
+                id:refresh_layout
+                size_hint:1,1
+                GridLayout:
+                    id:words
+                    cols:1
+                    spacing:15,15
+                    padding:15,15
+                    size_hint_y:None
+                    height: self.minimum_height
+        MDBottomAppBar:
+            MDTopAppBar:
+                md_bg_bottom_color: 0, 1, 0, 1
+                icon_color: self.md_bg_bottom_color
+                icon:'plus'
+                type:'bottom'
+                title:'test'
+                mode: "end"
+                on_action_button: root.add_words_pop()
+
+<EditFolder>:
+    MDGridLayout:
+        cols:1
+        id:editfolder
+        MDTopAppBar:
+            title: "Folders"
+            elevation:2
+            right_action_items:[['file-plus', lambda x:root.add()]]
+            left_action_items:[['arrow-left', lambda x: root.back()]]
+        MDBoxLayout: 
+            MDScrollViewRefreshLayout:
+                id:refresh_layout
+                refresh_callback: root.refresh_callback
+                root_layout: root
+                size_hint:1,1
+                GridLayout:
+                    id:box
+                    cols:2
+                    spacing:15,15
+                    padding:15,15
+                    size_hint_y:None
+                    height: self.minimum_height
+                
+                
+                
+
+                
+
+<SecondGame>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        Image:
+            source:'assets/game2.jpg'
+            size_hint:.6,.6
+            pos_hint:{'center_x':.5,'center_y':.82}
+        MDIconButton:
+            icon:'arrow-left'
+            on_press:root.back()
+            size_hint:0.1,0.1
+            ripple_alpha: 0
+            pos_hint:{'center_x':0.05,'center_y':0.97}        
+        MDCard:
+            id:elev
+            elevation:3
+            size_hint:.65,.45
+            md_bg_color:210/255, 210/255, 210/255,1
+            pos_hint:{'center_x':.5,'center_y':.4}
+            radius:[10]
+        MDLabel:
+            id:key
+            text:''
+            pos_hint:{'center_x':.5,'center_y':.55}
+            halign:'center'
+            font_size:'32sp'
+        MDTextField:
+            id: input
+            hint_text: 'Translation'
+            write_tab:False
+            multiline:False
+            size_hint:.5,.12
+            pos_hint:{'center_x':.5,'center_y':.4}
+            line_color_normal:106/255, 90/255, 205/255, 1
+            hint_text_color_normal:106/255, 90/255, 205/255, 1
+            helper_text_mode: "on_error"
+        MDFillRoundFlatButton:
+            text:'Submit'
+            size_hint:0.3,0.07
+            pos_hint:{'center_x':0.5,'center_y':0.25}
+            md_bg_color:106/255, 90/255, 205/255, 1 
+            on_press:root.submit(root.ids.input.text)       
+        MDProgressBar:
+            id:progress
+            min:0
+            pos_hint:{'center_x':0.5,'center_y':0.08}
+            size_hint:0.75,None
+
+<OneTryGame>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        Image:
+            source:'assets/game2.jpg'
+            size_hint:.6,.6
+            pos_hint:{'center_x':.5,'center_y':.82}
+        MDIconButton:
+            icon:'arrow-left'
+            on_press:root.back()
+            ripple_alpha: 0
+            size_hint:0.1,0.1
+            pos_hint:{'center_x':0.05,'center_y':0.97}        
+        MDCard:
+            id:elev
+            elevation:3
+            size_hint:.65,.45
+            md_bg_color:210/255, 210/255, 210/255,1
+            pos_hint:{'center_x':.5,'center_y':.4}
+            radius:[10]
+        MDLabel:
+            id:key
+            text:''
+            pos_hint:{'center_x':.5,'center_y':.55}
+            halign:'center'
+            font_size:'32sp'
+        MDTextField:
+            id: input
+            hint_text: 'Translation'
+            write_tab:False
+            multiline:False
+            size_hint:.5,.12
+            pos_hint:{'center_x':.5,'center_y':.4}
+            line_color_normal:106/255, 90/255, 205/255, 1
+            hint_text_color_normal:106/255, 90/255, 205/255, 1
+        MDFillRoundFlatButton:
+            text:'Submit'
+            size_hint:0.3,0.07
+            pos_hint:{'center_x':0.5,'center_y':0.25}
+            md_bg_color:106/255, 90/255, 205/255, 1 
+            on_press:root.submit(root.ids.input.text)    
+        MDProgressBar:
+            id:progress
+            min:0
+            pos_hint:{'center_x':0.5,'center_y':0.08}
+            size_hint:0.75,None
+
+<CardGame>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        MDIconButton:
+            icon:'arrow-left'
+            on_press:root.back()
+            size_hint:0.1,0.1
+            ripple_alpha: 0
+            pos_hint:{'center_x':0.05,'center_y':0.97}   
+        MDCard:
+            md_bg_color:210/255,210/255,210/255,1
+            size_hint:.8,.6
+            pos_hint:{'center_x':.5,'center_y':.6}
+            radius : [10]
+            on_press:root.change()
+            elevation: 5
+            MDLabel:
+                id:word
+                text:'lol'
+                halign:'center'
+                font_size:'35sp'
+        MDRaisedButton:
+            id:previous
+            size_hint:.4,.205
+            pos_hint:{'center_x':0.27,'center_y':0.13}
+            elevation: 5
+            md_bg_color:'red'
+            on_release:root.previous()
+            ripple_alpha: 0
+            text:'Previous' 
+        MDRaisedButton:
+            id:next
+            size_hint:.4,.205
+            pos_hint:{'center_x':0.73,'center_y':0.13}
+            elevation: 5
+            md_bg_color:'green'
+            on_release:root.next()
+            text:'Next' 
+            ripple_alpha: 0
+
+<VoiceGame>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        Image:
+            source:'assets/game2.jpg'
+            size_hint:.6,.6
+            pos_hint:{'center_x':.5,'center_y':.82}
+        MDIconButton:
+            icon:'arrow-left'
+            on_press:root.back()
+            size_hint:0.1,0.1
+            ripple_alpha: 0
+            pos_hint:{'center_x':0.05,'center_y':0.97}        
+        MDCard:
+            id:elev
+            elevation:3
+            size_hint:.65,.45
+            md_bg_color:210/255, 210/255, 210/255,1
+            pos_hint:{'center_x':.5,'center_y':.4}
+            radius:[10]
+        MDIconButton:
+            id:key
+            text:''
+            pos_hint:{'center_x':.5,'center_y':.55}
+            icon:"play-circle"
+            on_press: root.voice()
+            size_hint:.3,.15
+        MDTextField:
+            id: input
+            hint_text: 'Translation'
+            write_tab:False
+            multiline:False
+            size_hint:.5,.12
+            pos_hint:{'center_x':.5,'center_y':.4}
+            line_color_normal:106/255, 90/255, 205/255, 1
+            hint_text_color_normal:106/255, 90/255, 205/255, 1
+            helper_text_mode: "on_error"
+        MDFillRoundFlatButton:
+            text:'Submit'
+            size_hint:0.3,0.07
+            pos_hint:{'center_x':0.5,'center_y':0.25}
+            md_bg_color:106/255, 90/255, 205/255, 1 
+            on_press:root.submit(root.ids.input.text)       
+        MDProgressBar:
+            id:progress
+            min:0
+            pos_hint:{'center_x':0.5,'center_y':0.08}
+            size_hint:0.75,None
+            
+<WinWindow>:
+    MDFloatLayout:
+        md_bg_color:255/255,255/255,255/255,1
+        Image:
+            source:'assets/winner.jpg'
+            size_hint:.6,.6
+            pos_hint:{'center_x':.5,'center_y':.82}
+        MDLabel:
+            id:win
+            text:'Congratulations!'
+            pos_hint:{'center_x':.5,'center_y':.5}
+        MDFillRoundFlatButton:
+            text:'Play Again'
+            size_hint:0.3,0.07
+            pos_hint:{'center_x':0.5,'center_y':0.4}
+            md_bg_color:106/255, 90/255, 205/255, 1 
+            on_press:root.play_again()
+        MDLabel:
+            text:"Or"
+            pos_hint:{'center_x':.5,'center_y':.3}
+        MDFillRoundFlatButton:
+            text:'Back'
+            size_hint:0.3,0.07
+            pos_hint:{'center_x':0.5,'center_y':0.2}
+            md_bg_color:106/255, 90/255, 205/255, 1 
+            on_press:root.back()
+
+<WinSecond>:
+    MDFloatLayout:
+        Image:
+            id:img
+            allow_stretch:True
+        MDLabel:
+            id:correct
+            text:''
+            pos_hint:{'center_x':0.5,'center_y':0.45}
+            font_style:"Overline"
+            halign:'center'
+            font_size:'28sp'
+        MDLabel:
+            id:wrong
+            text:''
+            pos_hint:{'center_x':0.5,'center_y':0.3}
+            font_style:"Overline"
+            halign:'center'
+            font_size:'28sp'
+        MDFillRoundFlatButton:
+            text:'Back'
+            size_hint:0.4,0.07
+            on_press:root.back()
+            pos_hint:{'center_x':0.275,'center_y':0.085}
+        MDFillRoundFlatButton:
+            text:'Play again'
+            size_hint:0.4,0.07
+            on_press:root.again()
+            pos_hint:{'center_x':0.725,'center_y':0.085}
+
+<CreateFolderPopup>:
+    MDFloatLayout:
+        MDLabel:
+            id:pop_label
+            text:''
+            halign:'center'
+            size_hint:None,0.2
+            pos_hint:{'center_x':0.5,'center_y':0.85}
+        MDTextField:
+            id: folder
+            helper_text_mode: "on_error"
+            hint_text: 'Folder Name'
+            write_tab:False
+            multiline:False
+            size_hint:.8,None
+            pos_hint:{'center_x':.5,'center_y':.55}
+            line_color_normal:106/255, 90/255, 205/255, 1
+            hint_text_color_normal:106/255, 90/255, 205/255, 1 
+        MDFillRoundFlatButton:
+            text:'Add'
+            size_hint:0.8,0.2
+            pos_hint:{'center_x':0.5,'center_y':0.18}
+            on_press:
+                root.create_folder(root.ids.folder.text)
+                     
+<UpdateFolder>:
+    MDFloatLayout:
+        MDLabel:
+            id:pop_label
+            text:''
+            halign:'center'
+            size_hint:None,0.2
+            pos_hint:{'center_x':0.5,'center_y':0.85}
+        MDTextField:
+            id:upd
+            text:''
+            halign:'center'
+            size_hint:.8,None
+            multiline:False
+            helper_text_mode: "on_error"
+            pos_hint:{'center_x':0.5,'center_y':0.6}
+        MDFillRoundFlatButton:
+            text:'Alright'
+            size_hint:0.8,0.2
+            pos_hint:{'center_x':0.5,'center_y':0.2}
+            on_press:
+                root.upd(root.ids.pop_label.text,root.ids.upd.text)
+
+<AddWordPopup>:
+    MDFloatLayout:
+        #md_bg_color: 240/255,240/255,240/255,1
+        MDLabel:
+            id:pop_label
+            text:''
+            halign:'center'
+            size_hint:None,0.2
+            pos_hint:{'center_x':0.5,'center_y':0.9}
+        MDTextField:
+            id: word2
+            helper_text_mode: "on_error"
+            hint_text: 'Word'
+            write_tab:False
+            multiline:False
+            size_hint:.8,None
+            pos_hint:{'center_x':.5,'center_y':.74}
+            line_color_normal:106/255, 90/255, 205/255, 1
+            hint_text_color_normal:106/255, 90/255, 205/255, 1 
+        MDTextField:
+            id: trans2
+            helper_text_mode: "on_error"
+            hint_text: 'Translation'
+            write_tab:False
+            multiline:False
+            size_hint:.8,None
+            pos_hint:{'center_x':.5,'center_y':.42}
+            line_color_normal:106/255, 90/255, 205/255, 1
+            hint_text_color_normal:106/255, 90/255, 205/255, 1 
+        MDFillRoundFlatButton:
+            text:'Add'
+            size_hint:0.8,0.2
+            pos_hint:{'center_x':0.5,'center_y':0.15}
+            on_press:
+                root.add_new_word(root.ids.word2.text,root.ids.trans2.text)
+
+<P>:
+    MDFloatLayout:
+        MDLabel:
+            id:pop_label
+            text:''
+            halign:'center'
+            size_hint:None,0.3
+            pos_hint:{'center_x':0.5,'center_y':0.7}
+        MDFillRoundFlatButton:
+            text:'Alright'
+            size_hint:0.8,0.2
+            pos_hint:{'center_x':0.5,'center_y':0.2}
+            on_press:root.popup.dismiss()
+
+
+<RootWidget>:
+    WelcomeScreen:
+        name:'welcome_screen'
+    LoginScreen:
+        name:'login_screen'
+        on_pre_enter:self.clear()
+    SignUpScreen:
+        name:'sign_up'
+    LoginSuccesfull:
+        name:'login_succesfull'
+    ForgotPassword:
+        name:'forgot_password'
+    CardGame:
+        name:'card_game'
+        on_pre_enter:self.cards()
+    NewWord:
+        name:'new_word'
+        on_pre_enter:self.start()
+    EditFolder:
+        name:'edit_folder'
+    EditWords:
+        name:'edit_words'
+    BeforeGame:
+        name:'before_game'
+        on_pre_enter:self.clear_spinner()
+    SecondGame:
+        name:'second_game'
+        on_pre_enter:self.validation()
+        on_leave:self.clear_page()
+    OneTryGame:
+        name:'one_try_game'
+        on_pre_enter:self.validation()
+        on_leave:self.clear_page()
+    VoiceGame:
+        name:'voice_game'
+        on_pre_enter:self.validation()
+        on_leave:self.clear_page()
+    WinWindow:
+        name:'win_window'
+    WinSecond:
+        name:'win_second'
+
+
